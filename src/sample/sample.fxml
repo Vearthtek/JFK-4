@@ -18,7 +18,7 @@
                      <children>
                         <Label layoutX="19.0" layoutY="14.0" prefHeight="25.0" prefWidth="99.0" text="Choose file .csv:" />
                         <Button fx:id="buttonFileChooser" layoutX="142.0" layoutY="14.0" mnemonicParsing="false" onAction="#chooseAndReadFile" text="Choose" />
-                        <Button fx:id="saveFile" layoutX="140.0" layoutY="52.0" mnemonicParsing="false" text="Save file" />
+                        <Button fx:id="saveFile" layoutX="140.0" layoutY="52.0" mnemonicParsing="false" onAction="#saveFile" text="Save file" />
                         <Label layoutX="19.0" layoutY="52.0" prefHeight="25.0" prefWidth="72.0" text="File content:" />
                         <TableView fx:id="tableView" layoutX="19.0" layoutY="91.0" prefHeight="264.0" prefWidth="560.0" />
                      </children></AnchorPane>
