@@ -1,6 +1,5 @@
 package converter;
 
-import javafx.scene.control.Alert;
 
 /**
  * Created by Vearthtek on 2017-06-14.
@@ -11,11 +10,7 @@ public class DoubleStringConverter extends javafx.util.converter.DoubleStringCon
         try {
             return super.fromString(s);
         } catch (NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Podana wartość nie jest liczbą!");
-            alert.setHeaderText("Wprowadź poprawną wartość.");
-            alert.setContentText("Wartość wprowadzona musi być liczbą.");
-            alert.showAndWait();
+            alert.Alert.showErrorAlert("Podana wartość nie jest liczbą!", "Wprowadź poprawną wartość.", "Wartość wprowadzona musi być liczbą.");
             return Double.NaN;
         }
     }

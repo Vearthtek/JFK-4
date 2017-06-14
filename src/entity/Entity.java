@@ -1,4 +1,4 @@
-package sample;
+package entity;
 
 /**
  * Created by Vearthtek on 2017-06-13.
@@ -14,6 +14,10 @@ public class Entity {
         this.lastName = lastName;
         this.salary = salary;
         this.email = email;
+    }
+
+    public String[] toArrayString() {
+        return new String[] {firstName, lastName, salary.toString(), email};
     }
 
     public String getEmail() {

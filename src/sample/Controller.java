@@ -1,5 +1,8 @@
 package sample;
 
+import alert.Alert;
+import entity.Entity;
+import com.opencsv.CSVWriter;
 import converter.DoubleStringConverter;
 import event.handler.DoubleEventHandler;
 import event.handler.StringEventHandler;
@@ -8,21 +11,14 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Arrays;
+import java.io.*;
 
 public class Controller {
 
@@ -33,6 +29,24 @@ public class Controller {
 
     @FXML
     private Button saveFile;
+
+    @FXML
+    private Button jsButton;
+
+    @FXML
+    private TextArea jsInput;
+
+    @FXML
+    private TextArea jsOutput;
+
+    @FXML
+    private Button pythonButton;
+
+    @FXML
+    private TextArea pythonInput;
+
+    @FXML
+    private TextArea pythonOutput;
 
     @FXML
     private TableView<Entity> tableView;
@@ -103,8 +117,16 @@ public class Controller {
     }
 
     @FXML
-    void saveFile(){
-
+    void saveFile() {
+        try {
+            CSVWriter writer = new CSVWriter(new FileWriter(csvPath), ';', CSVWriter.NO_QUOTE_CHARACTER);
+            writer.writeNext(new String[]{"firstName", "lastName", "salary", "email"});
+            tableView.getItems().stream().forEach(e -> writer.writeNext(e.toArrayString()));
+            writer.close();
+            Alert.showInfoAlert("Udalo sie zapisac do pliku!", "Zapis sie powiódł.", "Zapisano do pliku " + csvPath + ".");
+        } catch (IOException e) {
+            Alert.showErrorAlert("Nie udało się zapisać do pliku!", "Wprowadź poprawną wartość.", "Coś się stało z plikiem " + csvPath + ".");
+        }
     }
 
     @FXML
@@ -113,6 +135,8 @@ public class Controller {
         fileChooser = new FileChooser();
         fileChooser.setTitle("Please choose csv file:");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Comma Separated Values (*.csv)", "*.csv"));
+        jsOutput.setEditable(false);
+        pythonOutput.setEditable(false);
 
         tableView.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -122,8 +146,8 @@ public class Controller {
                     TableRow row;
                     if (node instanceof TableRow) {
                         row = (TableRow) node;
-                        if(null == row.getItem()){
-                            tableView.getItems().add(new Entity("enter name...", "enter last name...", 0.,"enter email..."));
+                        if (null == row.getItem()) {
+                            tableView.getItems().add(new Entity("enter name...", "enter last name...", 0., "enter email..."));
                         }
                     }
                 }

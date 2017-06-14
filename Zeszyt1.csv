@@ -1,4 +1,6 @@
-﻿firstName;lastName;salary;email
-Alwafaa;Abacki;1000;zdzisiek@adad.com
-chero;Cabacki;2000;bfadaw@dadaad.com
-Thru;Wpisac;3000;dadada@da.com
+firstName;lastName;salary;email
+Alwafaa;Abacki;1000.0;zdzisiek@adad.com
+chero;Cabacki;2000.0;bfadaw@dadaad.com
+Thru;Wpisac;3000.0;dadada@da.com
+enter name...;enter last name...;0.0;enter email...
+enter name...;enter last name...;0.0;enter email...

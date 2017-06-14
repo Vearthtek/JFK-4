@@ -2,7 +2,7 @@ package event.handler;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.TableColumn;
-import sample.Entity;
+import entity.Entity;
 
 /**
  * Created by Vearthtek on 2017-06-14.
