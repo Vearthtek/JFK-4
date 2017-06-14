@@ -1,6 +1,7 @@
 package sample;
 
 import alert.Alert;
+import com.opencsv.CSVReader;
 import entity.Entity;
 import com.opencsv.CSVWriter;
 import converter.DoubleStringConverter;
@@ -19,6 +20,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.util.Arrays;
 
 public class Controller {
 
@@ -69,41 +71,38 @@ public class Controller {
         if (!csvFile.exists())
             return;*/
         csvPath = "E:\\Studia\\Semestr VI\\JFiK\\jfk\\JFK-4\\Zeszyt1.csv";
-        String line;
-        String cvsSplitBy = ";";
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvPath))) {
+        try (CSVReader csvReader = new CSVReader(new FileReader(csvPath), ';', CSVWriter.NO_QUOTE_CHARACTER)) {
 
             String[] data;
-            if (null != (line = br.readLine())) {
+            if (null != csvReader.readNext()) {
 
                 TableColumn firstNameCol = new TableColumn("First Name");
                 firstNameCol.setCellValueFactory(new PropertyValueFactory<Entity, String>("firstName"));
                 firstNameCol.setCellFactory(TextFieldTableCell.forTableColumn());
-                firstNameCol.setOnEditCommit(new StringEventHandler());
+                firstNameCol.setOnEditCommit(new StringEventHandler(Entity.class.getMethod("setFirstName", String.class)));
 
                 TableColumn lastNameCol = new TableColumn("Last Name");
                 lastNameCol.setCellValueFactory(new PropertyValueFactory<Entity, String>("lastName"));
                 lastNameCol.setCellFactory(TextFieldTableCell.forTableColumn());
-                lastNameCol.setOnEditCommit(new StringEventHandler());
+                lastNameCol.setOnEditCommit(new StringEventHandler(Entity.class.getMethod("setLastName", String.class)));
 
                 TableColumn salaryCol = new TableColumn("Salary");
                 salaryCol.setCellValueFactory(new PropertyValueFactory<Entity, String>("salary"));
                 salaryCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-                salaryCol.setOnEditCommit(new DoubleEventHandler());
+                salaryCol.setOnEditCommit(new DoubleEventHandler(Entity.class.getMethod("setSalary", Double.class)));
 
 
                 TableColumn emailCol = new TableColumn("E-mail");
                 emailCol.setCellValueFactory(new PropertyValueFactory<Entity, String>("email"));
                 emailCol.setCellFactory(TextFieldTableCell.forTableColumn());
-                emailCol.setOnEditCommit(new StringEventHandler());
+                emailCol.setOnEditCommit(new StringEventHandler(Entity.class.getMethod("setEmail", String.class)));
 
                 tableView.getColumns().addAll(firstNameCol, lastNameCol, salaryCol, emailCol);
-            }
 
-            while (null != (line = br.readLine())) {
-                data = line.split(cvsSplitBy);
-                this.entities.add(new Entity(data[0], data[1], Double.parseDouble(data[2]), data[3]));
+                while (null != (data = csvReader.readNext())) {
+                    this.entities.add(new Entity(data[0], data[1], Double.parseDouble(data[2]), data[3]));
+                }
             }
 
             tableView.setItems(this.entities);
@@ -112,6 +111,8 @@ public class Controller {
             saveFile.setDisable(false);
 
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
     }

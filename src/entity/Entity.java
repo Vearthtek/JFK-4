@@ -9,6 +9,11 @@ public class Entity {
     private Double salary;
     private String email;
 
+    @Override
+    public String toString() {
+        return String.format("Entity{firstName='%s', lastName='%s', salary=%s, email='%s'}", firstName, lastName, salary, email);
+    }
+
     public Entity(String firstName, String lastName, Double salary, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
