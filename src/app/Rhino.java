@@ -32,10 +32,6 @@ public class Rhino {
             EntityJS[] objects = new EntityJS[entities.size()];
             for (int i = 0; i < entities.size(); ++i) {
                 objects[i] = new EntityJS(entities.get(i).getFirstName(), entities.get(i).getLastName(), entities.get(i).getSalary(), entities.get(i).getEmail());
-                objects[i].put("firstName", objects[i], objects[i].jsGet_firstName());
-                objects[i].put("lastName", objects[i], objects[i].jsGet_lastName());
-                objects[i].put("salary", objects[i], objects[i].jsGet_salary());
-                objects[i].put("email", objects[i], objects[i].jsGet_email());
             }
 
             NativeArray array = new NativeArray(objects);

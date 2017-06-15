@@ -1,11 +1,11 @@
 package entity;
 
-import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.NativeObject;
 
 /**
  * Created by Vearthtek on 2017-06-15.
  */
-public class EntityJS extends ScriptableObject {
+public class EntityJS extends NativeObject {
     private String firstName;
     private String lastName;
     private Double salary;
@@ -20,17 +20,18 @@ public class EntityJS extends ScriptableObject {
     }
 
     public EntityJS(String firstName, String lastName, Double salary, String email) {
+        jsConstructor(firstName, lastName, salary, email);
+    }
+
+    public void jsConstructor(String firstName, String lastName, Double salary, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.salary = salary;
         this.email = email;
-    }
-
-    public void jsConstructor() {
-        this.firstName = "";
-        this.lastName = "";
-        this.salary = 0.;
-        this.email = "";
+        this.put("firstName", this, firstName);
+        this.put("lastName", this, lastName);
+        this.put("salary", this, salary);
+        this.put("email", this, email);
     }
 
     public void jsSet_salary(Double value) {

@@ -14,6 +14,9 @@ entities.forEach(function(e){
 ```
 #### 2
 ```javascript
+for(var i = 1; i < 5; ++i) {
+  entities.push(new Entity('Pracownik ' + i, 'Nazwisko ' + i, 2000 + i * 100, 'pracownik' + i + '@example.com'));
+}
 var s = 0;
 entities.forEach(function(e){
   s += e.salary;

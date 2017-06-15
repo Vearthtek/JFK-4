@@ -157,6 +157,7 @@ public class Controller {
             tableView.getItems().addAll(o);
             saveFile();
         } catch (Exception e) {
+            e.printStackTrace();
             jsOutput.setText(e.getMessage());
         }
     }
