@@ -1,8 +1,8 @@
 package event.handler;
 
+import entity.Entity;
 import javafx.event.EventHandler;
 import javafx.scene.control.TableColumn;
-import entity.Entity;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -20,13 +20,14 @@ public class DoubleEventHandler implements EventHandler<TableColumn.CellEditEven
     @Override
     public void handle(TableColumn.CellEditEvent<Entity, Double> t) {
         Entity e = t.getTableView().getItems().get(t.getTablePosition().getRow());
-        try {if (t.getNewValue().isNaN()) {
-            method.invoke(e, t.getOldValue());
-            t.getTableColumn().setVisible(false);
-            t.getTableColumn().setVisible(true);
-        } else {
-            method.invoke(e, t.getNewValue());
-        }
+        try {
+            if (t.getNewValue().isNaN()) {
+                method.invoke(e, t.getOldValue());
+                t.getTableColumn().setVisible(false);
+                t.getTableColumn().setVisible(true);
+            } else {
+                method.invoke(e, t.getNewValue());
+            }
         } catch (IllegalAccessException e1) {
             e1.printStackTrace();
         } catch (InvocationTargetException e1) {

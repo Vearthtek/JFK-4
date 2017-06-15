@@ -1,8 +1,8 @@
 package event.handler;
 
+import entity.Entity;
 import javafx.event.EventHandler;
 import javafx.scene.control.TableColumn;
-import entity.Entity;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

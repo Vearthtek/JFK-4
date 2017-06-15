@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<SplitPane fx:id="splitPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller">
+    <items>
+        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="File (.csv)">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <Label layoutX="19.0" layoutY="14.0" prefHeight="25.0" prefWidth="99.0" text="Choose file .csv:" />
+                                <Button fx:id="buttonFileChooser" layoutX="142.0" layoutY="14.0" mnemonicParsing="false" onAction="#chooseAndReadFile" text="Choose" />
+                                <Button fx:id="saveFile" layoutX="140.0" layoutY="52.0" mnemonicParsing="false" onAction="#saveFile" text="Save file" />
+                                <Label layoutX="19.0" layoutY="52.0" prefHeight="25.0" prefWidth="72.0" text="File content:" />
+                                <TableView fx:id="tableView" layoutX="19.0" layoutY="91.0" prefHeight="264.0" prefWidth="560.0" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="JavaScript (Rhino)">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <Label layoutX="19.0" layoutY="14.0" prefHeight="25.0" prefWidth="99.0" text="Javascript code:" />
+                                <TextArea fx:id="jsInput" layoutX="19.0" layoutY="47.0" prefHeight="141.0" prefWidth="550.0" />
+                                <TextArea fx:id="jsOutput" layoutX="20.0" layoutY="224.0" prefHeight="116.0" prefWidth="550.0" />
+                                <Label layoutX="20.0" layoutY="193.0" prefHeight="25.0" text="Output:" />
+                                <Button fx:id="jsRun" layoutX="279.0" layoutY="193.0" mnemonicParsing="false" onAction="#executeJS" text="Run!" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="Python (Jython)">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <Label layoutX="19.0" layoutY="14.0" prefHeight="25.0" prefWidth="99.0" text="Python code:" />
+                                <TextArea fx:id="pythonInput" layoutX="19.0" layoutY="47.0" prefHeight="141.0" prefWidth="550.0" />
+                                <TextArea fx:id="pythonOutput" layoutX="20.0" layoutY="224.0" prefHeight="116.0" prefWidth="550.0" />
+                                <Label layoutX="20.0" layoutY="193.0" prefHeight="25.0" text="Output:" />
+                                <Button fx:id="pythonRun" layoutX="279.0" layoutY="193.0" mnemonicParsing="false" onAction="#executePython" text="Run!" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </items>
+</SplitPane>

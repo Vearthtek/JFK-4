@@ -22,7 +22,7 @@ public class Entity {
     }
 
     public String[] toArrayString() {
-        return new String[] {firstName, lastName, salary.toString(), email};
+        return new String[]{firstName, lastName, salary.toString(), email};
     }
 
     public String getEmail() {

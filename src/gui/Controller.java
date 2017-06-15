@@ -1,10 +1,12 @@
-package sample;
+package gui;
 
 import alert.Alert;
+import app.Jython;
+import app.Rhino;
 import com.opencsv.CSVReader;
-import entity.Entity;
 import com.opencsv.CSVWriter;
 import converter.DoubleStringConverter;
+import entity.Entity;
 import event.handler.DoubleEventHandler;
 import event.handler.StringEventHandler;
 import javafx.collections.FXCollections;
@@ -19,8 +21,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.*;
-import java.util.Arrays;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Controller {
 
@@ -59,8 +62,14 @@ public class Controller {
 
     private String csvPath;
 
+    private Rhino rhino;
+
+    private Jython jython;
+
     public Controller() {
         entities = FXCollections.observableArrayList();
+        jython = new Jython();
+        rhino = new Rhino();
     }
 
     public void chooseAndReadFile() {
@@ -131,6 +140,18 @@ public class Controller {
     }
 
     @FXML
+    public void executeJS() {
+        String result = rhino.execute(jsInput.getText(), tableView.getItems());
+        jsOutput.setText(result);
+        //saveFile();
+    }
+
+    @FXML
+    public void executePython() {
+        String result = jython.execute(pythonInput.getText());
+    }
+
+    @FXML
     public void initialize() {
         saveFile.setDisable(true);
         fileChooser = new FileChooser();
@@ -138,6 +159,10 @@ public class Controller {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Comma Separated Values (*.csv)", "*.csv"));
         jsOutput.setEditable(false);
         pythonOutput.setEditable(false);
+        jsOutput.setWrapText(true);
+        pythonOutput.setWrapText(true);
+        jsInput.setWrapText(true);
+        pythonInput.setWrapText(true);
 
         tableView.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
