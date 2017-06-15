@@ -5,6 +5,7 @@ import app.Jython;
 import app.Rhino;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import com.sun.javafx.collections.ObservableListWrapper;
 import converter.DoubleStringConverter;
 import entity.Entity;
 import event.handler.DoubleEventHandler;
@@ -20,6 +21,8 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import jdk.nashorn.internal.objects.NativeJava;
+import org.mozilla.javascript.NativeJavaObject;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -36,7 +39,7 @@ public class Controller {
     private Button saveFile;
 
     @FXML
-    private Button jsButton;
+    private Button jsRun;
 
     @FXML
     private TextArea jsInput;
@@ -45,7 +48,7 @@ public class Controller {
     private TextArea jsOutput;
 
     @FXML
-    private Button pythonButton;
+    private Button pythonRun;
 
     @FXML
     private TextArea pythonInput;
@@ -118,6 +121,12 @@ public class Controller {
             tableView.setEditable(true);
             buttonFileChooser.setDisable(true);
             saveFile.setDisable(false);
+            jsInput.setDisable(false);
+            pythonInput.setDisable(false);
+            jsOutput.setDisable(false);
+            pythonOutput.setDisable(false);
+            jsRun.setDisable(false);
+            pythonRun.setDisable(false);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -141,9 +150,18 @@ public class Controller {
 
     @FXML
     public void executeJS() {
-        String result = rhino.execute(jsInput.getText(), tableView.getItems());
-        jsOutput.setText(result);
-        //saveFile();
+        String result = null;
+        try {
+            result = rhino.execute(jsInput.getText(), tableView.getItems());
+            ObservableListWrapper o = (ObservableListWrapper) rhino.getRetEntities();
+            tableView.getItems().clear();
+            tableView.getItems().addAll(o);
+            saveFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            jsOutput.setText(result);
+        }
     }
 
     @FXML
@@ -163,6 +181,12 @@ public class Controller {
         pythonOutput.setWrapText(true);
         jsInput.setWrapText(true);
         pythonInput.setWrapText(true);
+        jsInput.setDisable(true);
+        pythonInput.setDisable(true);
+        jsOutput.setDisable(true);
+        pythonOutput.setDisable(true);
+        jsRun.setDisable(true);
+        pythonRun.setDisable(true);
 
         tableView.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
