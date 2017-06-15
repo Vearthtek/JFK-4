@@ -1,7 +1,5 @@
 package entity;
 
-import org.mozilla.javascript.FunctionObject;
-import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
 /**

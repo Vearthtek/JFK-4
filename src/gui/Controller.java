@@ -5,7 +5,6 @@ import app.Jython;
 import app.Rhino;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
-import com.sun.javafx.collections.ObservableListWrapper;
 import converter.DoubleStringConverter;
 import entity.Entity;
 import event.handler.DoubleEventHandler;
@@ -21,12 +20,12 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import jdk.nashorn.internal.objects.NativeJava;
-import org.mozilla.javascript.NativeJavaObject;
+import org.mozilla.javascript.NativeArray;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Controller {
 
@@ -150,17 +149,15 @@ public class Controller {
 
     @FXML
     public void executeJS() {
-        String result = null;
         try {
-            result = rhino.execute(jsInput.getText(), tableView.getItems());
-            ObservableListWrapper o = (ObservableListWrapper) rhino.getRetEntities();
+            String result = rhino.execute(jsInput.getText(), tableView.getItems());
+            jsOutput.setText(result);
+            ArrayList o =  rhino.getRetEntities();
             tableView.getItems().clear();
             tableView.getItems().addAll(o);
             saveFile();
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            jsOutput.setText(result);
+            jsOutput.setText(e.getMessage());
         }
     }
 
