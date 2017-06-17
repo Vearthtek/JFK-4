@@ -20,8 +20,8 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.mozilla.javascript.NativeArray;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -75,13 +75,12 @@ public class Controller {
     }
 
     public void chooseAndReadFile() {
-        /*File csvFile = fileChooser.showOpenDialog(stage);
+        File csvFile = fileChooser.showOpenDialog(stage);
         if (csvFile == null) return;
-        String csvPath = csvFile.toPath().toString();
+        csvPath = csvFile.toPath().toString();
 
         if (!csvFile.exists())
-            return;*/
-        csvPath = "E:\\Studia\\Semestr VI\\JFiK\\jfk\\JFK-4\\Zeszyt1.csv";
+            return;
 
         try (CSVReader csvReader = new CSVReader(new FileReader(csvPath), ';', CSVWriter.NO_QUOTE_CHARACTER)) {
 
@@ -152,7 +151,7 @@ public class Controller {
         try {
             String result = rhino.execute(jsInput.getText(), tableView.getItems());
             jsOutput.setText(result);
-            ArrayList o =  rhino.getRetEntities();
+            ArrayList o = rhino.getRetEntities();
             tableView.getItems().clear();
             tableView.getItems().addAll(o);
             saveFile();
@@ -164,7 +163,20 @@ public class Controller {
 
     @FXML
     public void executePython() {
-        String result = jython.execute(pythonInput.getText());
+        try {
+            pythonRun.setDisable(true);
+            String result = jython.execute(pythonInput.getText(), tableView.getItems());
+            pythonOutput.setText(result);
+            ArrayList o = jython.getRetEntities();
+            tableView.getItems().clear();
+            tableView.getItems().addAll(o);
+            saveFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+            pythonOutput.setText(e.getMessage());
+        } finally {
+            pythonRun.setDisable(false);
+        }
     }
 
     @FXML

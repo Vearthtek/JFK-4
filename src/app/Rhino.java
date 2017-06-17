@@ -34,6 +34,8 @@ public class Rhino {
                 objects[i] = new EntityJS(entities.get(i).getFirstName(), entities.get(i).getLastName(), entities.get(i).getSalary(), entities.get(i).getEmail());
             }
 
+            //najlepiej zrzucic entities do JSONa, potem przeparsowac na obiekt JSowy i wrzucic do scope'a
+            //dzieki temu entities jest prawdziwym JSowym obiektem
             NativeArray array = new NativeArray(objects);
             Object JSONString = NativeJSON.stringify(context, scope, array, null, null);
             Object JSON = NativeJSON.parse(context, scope, JSONString.toString(), new NullCallable());
@@ -60,7 +62,7 @@ public class Rhino {
 //            [Entity{firstName='Alwafaa', lastName='Abacki', salary=1000.0, email='zdzisiek@adad.com'},
 //            Entity{firstName='chero', lastName='Cabacki', salary=2000.0, email='bfadaw@dadaad.com'}]
 
-            Object result = context.evaluateString(scope, code, "<cmd>", 1, null);
+            Object result = context.evaluateString(scope, code, "<script>", 1, null);
             retEntities = (NativeArray) scope.get("entities", scope);
             return context.toString(result);
         } catch (Exception ex) {
@@ -75,7 +77,7 @@ public class Rhino {
         ArrayList<Entity> list = new ArrayList<>(retEntities.size());
         for (int i = 0; i < retEntities.size(); ++i) {
             NativeObject o = (NativeObject) retEntities.get(i);
-            list.add(new Entity((String)o.get("firstName"), (String)o.get("lastName"), Double.parseDouble(o.get("salary").toString()), (String)o.get("email")));
+            list.add(new Entity((String) o.get("firstName"), (String) o.get("lastName"), Double.parseDouble(o.get("salary").toString()), (String) o.get("email")));
         }
         return list;
     }
